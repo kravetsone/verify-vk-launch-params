@@ -1,4 +1,5 @@
 import crypto from "node:crypto";
+import type { LaunchParams } from "./types.ts";
 
 /**
  * Верифицирует параметры запуска.
@@ -30,4 +31,10 @@ export function verifyLaunchParams(
 		.replace(/=$/, "");
 
 	return paramsHash === sign;
+}
+
+export function parseLaunchParams(queryStringRaw: string): LaunchParams {
+	const urlParams = new URLSearchParams(queryStringRaw);
+
+	return Object.fromEntries(urlParams.entries()) as unknown as LaunchParams;
 }
