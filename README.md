@@ -1,1 +1,1 @@
-# validate-vk-launch-params
+# verify-vk-launch-params

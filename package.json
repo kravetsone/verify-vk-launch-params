@@ -1,13 +1,13 @@
 {
-	"name": "validate-vk-launch-params",
+	"name": "verify-vk-launch-params",
 	"version": "0.0.1",
 	"description": "server-side helpers for vk launch-params",
 	"keywords": ["vk", "launch-params", "init-data", "vk-io"],
-	"homepage": "https://github.com/kravetsone/validate-vk-launch-params",
-	"readme": "https://github.com/kravetsone/validate-vk-launch-params",
+	"homepage": "https://github.com/kravetsone/verify-vk-launch-params",
+	"readme": "https://github.com/kravetsone/verify-vk-launch-params",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/kravetsone/validate-vk-launch-params.git"
+		"url": "git+https://github.com/kravetsone/verify-vk-launch-params.git"
 	},
 	"author": {
 		"url": "https://github.com/kravetsone",
