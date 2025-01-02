@@ -1,6 +1,6 @@
 // Adapted from https://github.com/VKCOM/vk-bridge/blob/9646819f545f77bd6d72122368b69fe2d76fdf0e/packages/core/src/types/data.ts#L1045
 
-type LaunchParamsLanguages =
+export type LaunchParamsLanguages =
 	| "ru"
 	| "uk"
 	| "ua"
@@ -10,9 +10,14 @@ type LaunchParamsLanguages =
 	| "pt"
 	| "es";
 
-type LaunchParamsGroupRole = "admin" | "editor" | "member" | "moder" | "none";
+export type LaunchParamsGroupRole =
+	| "admin"
+	| "editor"
+	| "member"
+	| "moder"
+	| "none";
 
-type LaunchParamsPlatforms =
+export type LaunchParamsPlatforms =
 	| "desktop_web"
 	| "desktop_web_messenger"
 	| "desktop_app_messenger"

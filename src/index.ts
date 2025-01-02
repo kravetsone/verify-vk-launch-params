@@ -38,3 +38,13 @@ export function parseLaunchParams(queryStringRaw: string): LaunchParams {
 
 	return Object.fromEntries(urlParams.entries()) as unknown as LaunchParams;
 }
+
+export function verifyAndParseLaunchParams(
+	queryStringRaw: string,
+	secretKey: string,
+): LaunchParams | false {
+	// TODO: optimize by reusing parsed queryStringRaw data
+	return verifyLaunchParams(queryStringRaw, secretKey)
+		? parseLaunchParams(queryStringRaw)
+		: false;
+}
