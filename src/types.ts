@@ -28,18 +28,22 @@ export type LaunchParamsPlatforms =
 	| "mobile_iphone_messenger"
 	| "mobile_ipad";
 
+// TODO: Лучше свериться с https://dev.vk.com/ru/mini-apps/development/launch-params#%D0%9F%D0%BE%D0%B4%D0%BF%D0%B8%D1%81%D1%8C%20%D0%BF%D0%B0%D1%80%D0%B0%D0%BC%D0%B5%D1%82%D1%80%D0%BE%D0%B2
 export interface LaunchParams {
 	vk_user_id: number;
 	vk_app_id: number;
-	vk_is_app_user: 0 | 1;
-	vk_are_notifications_enabled: 0 | 1;
+	// edited from  0 | 1
+	vk_is_app_user: boolean;
+	// edited from  0 | 1
+	vk_are_notifications_enabled: boolean;
 	vk_language: LaunchParamsLanguages;
 	vk_ref: string;
 	vk_access_token_settings: string;
 	vk_group_id?: number;
 	vk_viewer_group_role?: LaunchParamsGroupRole;
 	vk_platform: LaunchParamsPlatforms;
-	vk_is_favorite: 0 | 1;
+	// edited from  0 | 1
+	vk_is_favorite: boolean;
 	vk_ts: number;
 	sign: string;
 }

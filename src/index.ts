@@ -1,14 +1,20 @@
-import crypto from "node:crypto";
-import type { LaunchParams } from "./types.ts";
+import { createHmac } from "node:crypto";
+import type {
+	LaunchParams,
+	LaunchParamsGroupRole,
+	LaunchParamsLanguages,
+	LaunchParamsPlatforms,
+} from "./types.ts";
 
 const IS_BUN = typeof Bun !== "undefined";
 
-// base64url
+// https://nodejs.org/api/buffer.html#buffer_buffers_and_character_encodings
+// base64url нам подходит
 export const sha256Hash = IS_BUN
 	? (hmacKey: string, input: string) =>
 			new Bun.CryptoHasher("sha256", hmacKey).update(input).digest("base64url")
 	: (hmacKey: string, input: string) =>
-			crypto.createHmac("sha256", hmacKey).update(input).digest("base64url");
+			createHmac("sha256", hmacKey).update(input).digest("base64url");
 
 /**
  * Верифицирует параметры запуска.
@@ -32,10 +38,33 @@ export function verifyLaunchParams(
 	return sha256Hash(secretKey, queryString) === sign;
 }
 
+/**
+ * Парсит их из строки возвращая {@link LaunchParams}
+ */
 export function parseLaunchParams(queryStringRaw: string): LaunchParams {
 	const urlParams = new URLSearchParams(queryStringRaw);
 
-	return Object.fromEntries(urlParams.entries()) as unknown as LaunchParams;
+	const object = Object.fromEntries(urlParams.entries()) as Record<
+		keyof LaunchParams,
+		string
+		// Это строка. их не надо преобразовывать
+	> & {
+		vk_language: LaunchParamsLanguages;
+		vk_viewer_group_role?: LaunchParamsGroupRole;
+		vk_platform: LaunchParamsPlatforms;
+	};
+
+	return {
+		...object,
+		vk_is_app_user: object.vk_is_app_user === "1",
+		vk_are_notifications_enabled: object.vk_are_notifications_enabled === "1",
+		vk_is_favorite: object.vk_is_favorite === "1",
+		// Do we need solve NaN? only vk_group_id can be not present but in test data vk_ts missed too
+		vk_ts: Number(object.vk_ts),
+		vk_app_id: Number(object.vk_app_id),
+		vk_user_id: Number(object.vk_user_id),
+		vk_group_id: object.vk_group_id ? Number(object.vk_group_id) : undefined,
+	} satisfies LaunchParams;
 }
 
 export function verifyAndParseLaunchParams(
