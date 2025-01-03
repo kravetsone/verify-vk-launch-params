@@ -1,6 +1,15 @@
 import crypto from "node:crypto";
 import type { LaunchParams } from "./types.ts";
 
+const IS_BUN = typeof Bun !== "undefined";
+
+// base64url
+export const sha256Hash = IS_BUN
+	? (hmacKey: string, input: string) =>
+			new Bun.CryptoHasher("sha256", hmacKey).update(input).digest("base64url")
+	: (hmacKey: string, input: string) =>
+			crypto.createHmac("sha256", hmacKey).update(input).digest("base64url");
+
 /**
  * Верифицирует параметры запуска.
  */
@@ -20,17 +29,7 @@ export function verifyLaunchParams(
 		.map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
 		.join("&");
 
-	const paramsHash = crypto
-		.createHmac("sha256", secretKey)
-		.update(queryString)
-		.digest()
-		.toString("base64")
-		// Why VK need this...
-		.replace(/\+/g, "-")
-		.replace(/\//g, "_")
-		.replace(/=$/, "");
-
-	return paramsHash === sign;
+	return sha256Hash(secretKey, queryString) === sign;
 }
 
 export function parseLaunchParams(queryStringRaw: string): LaunchParams {
