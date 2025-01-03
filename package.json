@@ -35,7 +35,7 @@
 	"devDependencies": {
 		"@biomejs/biome": "^1.9.4",
 		"@types/bun": "latest",
-		"mitata": "^1.0.21",
+		"mitata": "^1.0.25",
 		"pkgroll": "^2.4.2",
 		"typescript": "^5.0.0"
 	}
