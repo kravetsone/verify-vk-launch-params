@@ -9,13 +9,17 @@
 # Использование
 
 ```ts
-import { verifyAndParseLaunchParams } from "vk-launch-params";
+import {
+    verifyAndParseLaunchParams,
+    verifyLaunchParams,
+    parseLaunchParams,
+} from "vk-launch-params";
 
 const launchParams =
     "?vk_user_id=4940751&vk_app_id=6736218&vk_is_app_user=1&vk_are_notifications_enabled=1&vk_language=ru&vk_access_token_settings=&vk_platform=android&sign=htQFduJpLxz7ribXRZpDFUH-XEUhC9rBPTJkjUFEkRA";
 const APP_SECRET_KEY = "wvl68m4dR1UpLrVRli";
 
-const result = verifyAndParseLaunchParams(launchParams);
+const result = verifyAndParseLaunchParams(launchParams, APP_SECRET_KEY);
 
 if (!result) {
     console.error("launch params is invalid");
@@ -31,4 +35,7 @@ if (!result) {
 //   sign: "htQFduJpLxz7ribXRZpDFUH-XEUhC9rBPTJkjUFEkRA",
 //   vk_is_favorite: false,
 // }
+
+const isValid = verifyLaunchParams(launchParams, APP_SECRET_KEY);
+const parsedButUnsafe = parseLaunchParams(launchParams);
 ```

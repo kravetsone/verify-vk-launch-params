@@ -9,7 +9,7 @@ import type {
 const IS_BUN = typeof Bun !== "undefined";
 
 // https://nodejs.org/api/buffer.html#buffer_buffers_and_character_encodings
-// base64url нам подходит
+// base64url нам подходит лучше чем предложенный ВКонтакте .digest().toString('base64').replace(...)
 export const sha256Hash = IS_BUN
 	? (hmacKey: string, input: string) =>
 			new Bun.CryptoHasher("sha256", hmacKey).update(input).digest("base64url")
